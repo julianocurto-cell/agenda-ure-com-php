@@ -1,0 +1,760 @@
+/* ============================================================
+   style.css
+   Identidade visual: tom institucional, sóbrio e funcional,
+   pensado para uso diário por equipes pedagógicas em
+   computador e celular.
+   ============================================================ */
+
+/* ============================================================
+   1. VARIÁVEIS E RESET
+   ============================================================ */
+
+:root {
+    --cor-primaria: #1F3A5F;
+    --cor-primaria-escura: #16293F;
+    --cor-primaria-clara: #2C4E7C;
+    --cor-fundo: #F4F5F2;
+    --cor-superficie: #FFFFFF;
+    --cor-texto: #1B2430;
+    --cor-texto-suave: #5B6572;
+    --cor-borda: #E1E4E4;
+    --cor-planejado: #B5540A;
+    --cor-planejado-fundo: #FBE8D8;
+    --cor-concluido: #1D5FA6;
+    --cor-concluido-fundo: #DBE8F6;
+    --cor-acento: #B98A2E;
+    --cor-erro: #B3261E;
+    --cor-erro-fundo: #FBE3E1;
+    --raio: 10px;
+    --raio-pequeno: 6px;
+    --sombra: 0 1px 2px rgba(20, 26, 33, 0.06), 0 4px 16px rgba(20, 26, 33, 0.05);
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+body {
+    font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--cor-fundo);
+    color: var(--cor-texto);
+    -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 { margin: 0 0 4px; font-weight: 600; letter-spacing: -0.01em; }
+p { margin: 0; }
+button { font-family: inherit; }
+
+[hidden] { display: none !important; }
+
+/* ============================================================
+   2. COMPONENTES BASE (formulários e botões)
+   ============================================================ */
+
+.campo { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
+.campo label { font-size: 13px; font-weight: 500; color: var(--cor-texto-suave); }
+
+input, select, textarea {
+    font-family: inherit;
+    font-size: 14.5px;
+    padding: 10px 12px;
+    border: 1px solid var(--cor-borda);
+    border-radius: var(--raio-pequeno);
+    background: var(--cor-superficie);
+    color: var(--cor-texto);
+    width: 100%;
+}
+
+input:focus, select:focus, textarea:focus {
+    outline: 2px solid var(--cor-primaria-clara);
+    outline-offset: 1px;
+    border-color: var(--cor-primaria-clara);
+}
+
+textarea { resize: vertical; min-height: 80px; }
+
+.btn {
+    border: none;
+    border-radius: var(--raio-pequeno);
+    padding: 10px 18px;
+    font-size: 14.5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color .15s ease, box-shadow .15s ease;
+}
+
+.btn-primario { background: var(--cor-primaria); color: #fff; width: 100%; }
+.btn-primario:hover { background: var(--cor-primaria-clara); }
+.btn-primario:disabled { opacity: .6; cursor: default; }
+
+.btn-secundario { background: var(--cor-superficie); color: var(--cor-primaria); border: 1px solid var(--cor-borda); }
+.btn-secundario:hover { border-color: var(--cor-primaria-clara); }
+
+.btn-link { background: transparent; color: var(--cor-primaria); padding: 6px 8px; font-weight: 600; }
+.btn-link:hover { text-decoration: underline; }
+
+.btn-perigo {
+    background: #c0392b;
+    color: #fff;
+    border: 1px solid #a93226;
+    width: auto;
+}
+.btn-perigo:hover:not(:disabled) { background: #a93226; }
+.btn-perigo:disabled { opacity: .6; cursor: not-allowed; }
+
+.chk-linha { display: flex; align-items: center; gap: 8px; font-size: 14px; }
+.chk-linha input { width: auto; }
+
+.chk-grupo {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    padding: 4px 0;
+}
+.chk-grupo .chk-linha { margin: 0; cursor: pointer; }
+
+.ajuda {
+    display: block;
+    margin-top: 4px;
+    font-size: 12px;
+    color: var(--cor-texto-suave);
+}
+.ajuda.erro { color: var(--cor-erro); }
+
+.erro-mensagem {
+    background: var(--cor-erro-fundo);
+    color: var(--cor-erro);
+    padding: 10px 12px;
+    border-radius: var(--raio-pequeno);
+    font-size: 13.5px;
+    margin-bottom: 16px;
+}
+
+.obrigatorio { color: var(--cor-erro); }
+
+/* ============================================================
+   3. TELA DE LOGIN
+   ============================================================ */
+
+#tela-login {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(160deg, var(--cor-primaria-escura), var(--cor-primaria) 70%);
+    padding: 24px;
+}
+
+.login-cartao {
+    background: var(--cor-superficie);
+    width: 100%;
+    max-width: 380px;
+    border-radius: var(--raio);
+    padding: 36px 32px;
+    box-shadow: var(--sombra);
+}
+
+.login-marca {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 28px;
+}
+
+.login-marca-icone {
+    width: 40px; height: 40px;
+    border-radius: var(--raio-pequeno);
+    background: var(--cor-primaria);
+    color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+}
+
+.login-marca h1 { font-size: 17px; color: var(--cor-primaria); }
+.login-marca span { display: block; font-size: 12.5px; color: var(--cor-texto-suave); }
+
+.login-cartao h2 { font-size: 22px; margin-bottom: 4px; }
+.login-cartao > p { color: var(--cor-texto-suave); margin-bottom: 24px; font-size: 14px; }
+
+/* ============================================================
+   4. SHELL DA APLICAÇÃO (menu, cabeçalho, conteúdo)
+   ============================================================ */
+
+#tela-app { display: flex; min-height: 100vh; }
+
+#menu-lateral {
+    width: 240px;
+    flex-shrink: 0;
+    background: var(--cor-primaria-escura);
+    color: #EAF0F7;
+    display: flex;
+    flex-direction: column;
+    padding: 20px 14px;
+}
+
+.menu-marca { display: flex; align-items: center; gap: 10px; padding: 6px 8px 24px; }
+.menu-marca-icone {
+    width: 34px; height: 34px;
+    border-radius: var(--raio-pequeno);
+    background: rgba(255,255,255,.12);
+    display: flex; align-items: center; justify-content: center;
+}
+.menu-marca strong { display: block; font-size: 14.5px; }
+.menu-marca span { display: block; font-size: 11.5px; color: #9FB2C8; }
+
+#menu-nav { display: flex; flex-direction: column; gap: 2px; flex: 1; }
+
+.menu-item {
+    display: flex; align-items: center; gap: 12px;
+    background: transparent; border: none; color: #C9D6E4;
+    padding: 10px 12px; border-radius: var(--raio-pequeno);
+    font-size: 14px; text-align: left; cursor: pointer;
+}
+.menu-item:hover { background: rgba(255,255,255,.06); color: #fff; }
+.menu-item.ativo { background: rgba(255,255,255,.14); color: #fff; }
+
+.menu-icone {
+    width: 20px;
+    height: 20px;
+    flex: 0 0 20px;
+    object-fit: contain;
+    display: block;
+    /* Transforma qualquer ícone escuro em branco puro */
+    filter: brightness(0) invert(1);
+    opacity: 0.85;
+    transition: opacity .15s ease;
+}
+.menu-item:hover .menu-icone,
+.menu-item.ativo .menu-icone { opacity: 1; }
+
+#conteudo-principal { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+
+#cabecalho {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 28px;
+    background: var(--cor-superficie);
+    border-bottom: 1px solid var(--cor-borda);
+    position: sticky; top: 0; z-index: 10;
+}
+
+.cabecalho-esquerda { display: flex; align-items: center; gap: 12px; }
+
+#btn-menu-mobile {
+    display: none;
+    background: transparent; border: none; font-size: 20px; cursor: pointer; color: var(--cor-primaria);
+}
+
+.cabecalho-usuario { display: flex; align-items: center; gap: 10px; }
+
+.avatar {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: var(--cor-primaria); color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 700;
+}
+
+.cabecalho-usuario-info { display: flex; flex-direction: column; line-height: 1.25; }
+.cabecalho-usuario-info strong { font-size: 13.5px; }
+.cabecalho-usuario-info span { font-size: 12px; color: var(--cor-texto-suave); }
+
+#main { padding: 28px; flex: 1; }
+
+/* ============================================================
+   5. CABEÇALHOS DE VIEW
+   ============================================================ */
+
+.view-cabecalho { margin-bottom: 22px; }
+.view-cabecalho h1 { font-size: 22px; }
+.subtitulo { color: var(--cor-texto-suave); font-size: 14px; }
+
+.view-cabecalho-acao {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 16px; flex-wrap: wrap;
+}
+
+/* ============================================================
+   6. CARDS E PAINÉIS
+   ============================================================ */
+
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 14px;
+    margin-bottom: 22px;
+}
+
+.card-indicador {
+    background: var(--cor-superficie);
+    border: 1px solid var(--cor-borda);
+    border-radius: var(--raio);
+    padding: 18px;
+    display: flex; flex-direction: column; gap: 4px;
+}
+
+.card-valor { font-size: 26px; font-weight: 700; }
+.card-valor.status-planejado { color: var(--cor-planejado); }
+.card-valor.status-concluido { color: var(--cor-concluido); }
+.card-label { font-size: 13px; color: var(--cor-texto-suave); }
+
+.painel {
+    background: var(--cor-superficie);
+    border: 1px solid var(--cor-borda);
+    border-radius: var(--raio);
+    padding: 20px;
+    margin-bottom: 20px;
+}
+.painel h2 { font-size: 15.5px; margin-bottom: 14px; }
+
+.painel-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 18px;
+}
+.painel-grid .painel { margin-bottom: 0; }
+
+/* ============================================================
+   7. FILTROS
+   ============================================================ */
+
+.filtros {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 12px;
+    background: var(--cor-superficie);
+    border: 1px solid var(--cor-borda);
+    border-radius: var(--raio);
+    padding: 16px;
+    margin-bottom: 20px;
+}
+.filtros .campo { margin-bottom: 0; min-width: 150px; flex: 1; }
+.filtros .btn { flex-shrink: 0; }
+
+/* ============================================================
+   8. TABELAS (genéricas)
+   ============================================================ */
+
+.tabela-wrap {
+    background: var(--cor-superficie);
+    border: 1px solid var(--cor-borda);
+    border-radius: var(--raio);
+    overflow-x: auto;
+}
+
+.tabela { width: 100%; border-collapse: collapse; font-size: 13.5px; min-width: 640px; }
+.tabela th, .tabela td { padding: 11px 14px; text-align: left; border-bottom: 1px solid var(--cor-borda); }
+.tabela thead th { color: var(--cor-texto-suave); font-weight: 600; font-size: 12.5px; text-transform: none; background: #FAFBFA; }
+.tabela tbody tr:last-child td { border-bottom: none; }
+.linha-clicavel { cursor: pointer; }
+.linha-clicavel:hover { background: #FAFBFA; }
+.ordenavel { cursor: pointer; user-select: none; }
+.ordenavel:hover { color: var(--cor-primaria); }
+
+.vazio {
+    color: var(--cor-texto-suave); font-size: 14px; padding: 24px;
+    text-align: center; background: var(--cor-superficie);
+    border: 1px dashed var(--cor-borda); border-radius: var(--raio);
+}
+.carregando { color: var(--cor-texto-suave); font-size: 14px; padding: 24px; }
+
+/* ============================================================
+   9. BADGES E LEGENDA
+   ============================================================ */
+
+.badge { display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: 12px; font-weight: 600; }
+.badge-planejado { background: var(--cor-planejado-fundo); color: var(--cor-planejado); }
+.badge-concluido { background: var(--cor-concluido-fundo); color: var(--cor-concluido); }
+.badge-inativo { background: #EDEDEE; color: #6B6F76; }
+
+.legenda { display: flex; gap: 18px; margin-bottom: 14px; font-size: 13px; color: var(--cor-texto-suave); }
+.legenda-item { display: flex; align-items: center; gap: 6px; }
+.ponto { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+.ponto-planejado { background: var(--cor-planejado); }
+.ponto-concluido { background: var(--cor-concluido); }
+
+/* ============================================================
+   10. LISTA DE PRÓXIMAS VISITAS (dashboard)
+   ============================================================ */
+
+.lista-proximas { list-style: none; margin: 0; padding: 0; }
+.lista-proximas li {
+    display: flex; align-items: center; gap: 16px;
+    padding: 12px 4px; border-bottom: 1px solid var(--cor-borda);
+}
+.lista-proximas li:last-child { border-bottom: none; }
+.lista-proximas-data { display: flex; flex-direction: column; width: 78px; flex-shrink: 0; font-size: 13px; }
+.lista-proximas-data span { color: var(--cor-texto-suave); }
+.lista-proximas-info { display: flex; flex-direction: column; flex: 1; font-size: 13.5px; }
+.lista-proximas-info span { color: var(--cor-texto-suave); font-size: 12.5px; }
+
+/* ============================================================
+   11. CONSOLIDADO SEMANAL (matriz)
+   ============================================================ */
+
+.semana-seletor {
+    display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+    background: var(--cor-superficie); border: 1px solid var(--cor-borda);
+    border-radius: var(--raio); padding: 14px 16px; margin-bottom: 16px;
+}
+.semana-atual { display: flex; align-items: center; gap: 10px; }
+.semana-atual input { width: auto; }
+
+.tabela-matriz {
+    min-width: 900px;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+.tabela-matriz th,
+.tabela-matriz td {
+    vertical-align: top;
+    border-bottom: 1px solid var(--cor-borda);
+    border-right: 1px solid var(--cor-borda);
+}
+.tabela-matriz thead th {
+    border-top: 1px solid var(--cor-borda);
+    text-align: center;
+    white-space: nowrap;
+    /* Cabeçalho fixo no topo ao rolar verticalmente */
+    position: sticky;
+    top: 0;
+    z-index: 3;
+    background: #FAFBFA;
+}
+
+/* Coluna "Localidade" fixa à esquerda, acima de qualquer célula ou compromisso */
+.tabela-matriz .col-localidade {
+    position: sticky;
+    left: 0;
+    z-index: 5;
+    background: var(--cor-superficie);
+    min-width: 190px;
+    text-align: left !important;
+    border-left: 1px solid var(--cor-borda);
+    border-right: 1px solid var(--cor-borda);
+}
+
+/* Canto (cabeçalho + coluna fixa) fica acima de todos os outros */
+.tabela-matriz thead .col-localidade {
+    z-index: 6;
+    background: #FAFBFA;
+}
+
+.col-localidade-cidade {
+    display: block;
+    font-size: 11.5px;
+    color: var(--cor-texto-suave);
+    font-weight: 400;
+}
+
+.tabela-matriz td { min-width: 150px; padding: 8px; }
+
+.celula-vazia { color: #B7BCC2; font-size: 13px; }
+
+.celula-periodo { margin-bottom: 8px; }
+.celula-periodo:last-child { margin-bottom: 0; }
+.celula-periodo-label {
+    display: block; font-size: 10.5px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: .04em; color: var(--cor-texto-suave); margin-bottom: 4px;
+}
+
+.compromisso {
+    display: block; width: 100%; text-align: left;
+    border: none; border-left: 3px solid; border-radius: 4px;
+    padding: 5px 7px; margin-bottom: 4px; font-size: 12px; line-height: 1.35;
+    cursor: pointer;
+}
+.compromisso:last-child { margin-bottom: 0; }
+.compromisso-planejado { background: var(--cor-planejado-fundo); border-color: var(--cor-planejado); color: #7A3A08; }
+.compromisso-concluido { background: var(--cor-concluido-fundo); border-color: var(--cor-concluido); color: #164A82; }
+
+/* Células da matriz clicáveis para agendar uma nova visita */
+.tabela-matriz td.celula-dia {
+    cursor: pointer;
+    transition: background-color .12s ease;
+}
+.tabela-matriz td.celula-dia:hover { background: #EEF3F8; }
+.tabela-matriz td.celula-dia:hover .celula-vazia {
+    color: var(--cor-primaria);
+    font-weight: 600;
+}
+/* Compromissos ficam em camada neutra: quem manda é a coluna fixa (z:5) */
+.tabela-matriz td.celula-dia .compromisso {
+    position: relative;
+    z-index: auto;
+}
+
+/* ============================================================
+   12. INDICADORES (barras)
+   ============================================================ */
+
+.barras { display: flex; flex-direction: column; gap: 10px; }
+.barra-linha { display: grid; grid-template-columns: 120px 1fr 32px; align-items: center; gap: 10px; }
+.barra-rotulo { font-size: 12.5px; color: var(--cor-texto-suave); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.barra-trilho { background: #EEF0EF; border-radius: 999px; height: 10px; overflow: hidden; }
+.barra-preenchida { height: 100%; border-radius: 999px; }
+.barra-neutra { background: var(--cor-primaria-clara); }
+.barra-planejado { background: var(--cor-planejado); }
+.barra-concluido { background: var(--cor-concluido); }
+.barra-valor { font-size: 12.5px; font-weight: 600; text-align: right; }
+
+/* ============================================================
+   13. MODAIS
+   ============================================================ */
+
+.modal-fundo {
+    position: fixed; inset: 0; background: rgba(15, 22, 30, .48);
+    display: flex; align-items: center; justify-content: center;
+    padding: 20px; z-index: 100;
+}
+
+.modal-caixa {
+    background: var(--cor-superficie);
+    border-radius: var(--raio);
+    width: 100%; max-width: 520px;
+    max-height: 90vh; overflow-y: auto;
+    box-shadow: var(--sombra);
+}
+
+.modal-cabecalho {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 22px; border-bottom: 1px solid var(--cor-borda);
+}
+.modal-cabecalho h2 { font-size: 17px; }
+.modal-fechar {
+    background: transparent; border: none; font-size: 20px;
+    cursor: pointer; color: var(--cor-texto-suave); line-height: 1;
+}
+
+.modal-corpo { padding: 20px 22px; }
+
+.modal-rodape {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-top: 4px;
+}
+.modal-rodape-acoes {
+    display: flex;
+    gap: 8px;
+    margin-left: auto;
+}
+
+.form-linha { display: flex; gap: 14px; }
+.form-linha .campo { flex: 1; }
+
+.detalhes-lista { display: grid; grid-template-columns: 110px 1fr; gap: 8px 14px; font-size: 14px; margin: 0; }
+.detalhes-lista dt { color: var(--cor-texto-suave); }
+.detalhes-lista dd { margin: 0; }
+
+.campo-somente-texto strong { display: block; font-size: 14.5px; }
+
+/* ============================================================
+   14. TOAST
+   ============================================================ */
+
+.toast {
+    position: fixed; bottom: 24px; left: 50%; transform: translate(-50%, 20px);
+    background: var(--cor-primaria-escura); color: #fff;
+    padding: 12px 20px; border-radius: var(--raio-pequeno);
+    font-size: 14px; opacity: 0; pointer-events: none;
+    transition: opacity .2s ease, transform .2s ease;
+    z-index: 200;
+}
+.toast.visivel { opacity: 1; transform: translate(-50%, 0); }
+.toast-erro { background: var(--cor-erro); }
+
+/* ============================================================
+   15. CALENDÁRIO (FullCalendar) — eventos
+   ============================================================ */
+/* Período FORA da caixa colorida; caixa contém local + tarefa. */
+
+.fc .fc-event {
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    padding: 0;
+    box-shadow: none;
+    cursor: pointer;
+    color: inherit;
+    font-size: 11.5px;
+    line-height: 1.2;
+}
+
+.evento-cal-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 1px 0;
+}
+
+.evento-cal-periodo {
+    font-size: 9.5px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    color: var(--cor-texto-suave);
+    padding-left: 2px;
+}
+
+.evento-cal-caixa {
+    border-left: 3px solid;
+    border-radius: 4px;
+    padding: 4px 6px;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    overflow: hidden;
+}
+
+.evento-cal-local {
+    font-weight: 600;
+    font-size: 11.5px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.evento-cal-tarefa {
+    font-size: 11px;
+    opacity: .88;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+}
+
+.evento-cal-usuario {
+    font-weight: 600;
+    flex-shrink: 0;
+    opacity: 1;
+}
+.evento-cal-usuario::after {
+    content: '·';
+    margin-left: 3px;
+    opacity: .5;
+}
+
+.evento-cal-planejado .evento-cal-caixa {
+    background: var(--cor-planejado-fundo);
+    border-left-color: var(--cor-planejado);
+    color: #7A3A08;
+}
+.evento-cal-concluido .evento-cal-caixa {
+    background: var(--cor-concluido-fundo);
+    border-left-color: var(--cor-concluido);
+    color: #164A82;
+}
+
+.evento-cal-planejado:hover .evento-cal-caixa { background: #F5D9BE; }
+.evento-cal-concluido:hover .evento-cal-caixa { background: #C7DCF1; }
+
+/* Na visão de Lista há mais espaço — deixa respirar */
+.fc .fc-list-event .evento-cal-periodo { font-size: 11px; }
+.fc .fc-list-event .evento-cal-local   { font-size: 13px; }
+.fc .fc-list-event .evento-cal-tarefa  { font-size: 12.5px; }
+
+/* ============================================================
+   16. RESPONSIVO
+   ============================================================ */
+
+/* Tablets e celulares: sidebar vira drawer, ajustes gerais */
+@media (max-width: 880px) {
+    #btn-menu-mobile { display: block; }
+
+    #menu-lateral {
+        position: fixed; top: 0; bottom: 0; left: 0;
+        transform: translateX(-100%);
+        transition: transform .2s ease;
+        z-index: 50; box-shadow: var(--sombra);
+    }
+    #menu-lateral.aberto { transform: translateX(0); }
+
+    #main { padding: 18px; }
+    #cabecalho { padding: 12px 16px; }
+    .filtros { flex-direction: column; align-items: stretch; }
+    .filtros .campo { min-width: 0; }
+    .form-linha { flex-direction: column; gap: 0; }
+}
+
+/* Tablets pequenos (641–880): ajuste intermediário do calendário */
+@media (min-width: 641px) and (max-width: 880px) {
+    .fc .fc-toolbar-title { font-size: 17px; }
+    .fc .fc-button { padding: 7px 12px; font-size: 13px; }
+    .fc .fc-daygrid-day-frame { min-height: 80px; }
+    .evento-cal-local { font-size: 11px; }
+    .evento-cal-tarefa { font-size: 10px; }
+}
+
+/* Celulares (até 640px): calendário compacto, visão de lista padrão */
+@media (max-width: 640px) {
+
+    /* Toolbar compacta e centralizada */
+    .fc .fc-toolbar {
+        flex-direction: column;
+        gap: 8px;
+        align-items: stretch;
+    }
+    .fc .fc-toolbar-title {
+        font-size: 15px;
+        text-align: center;
+    }
+    .fc .fc-button {
+        padding: 6px 10px;
+        font-size: 12.5px;
+    }
+    .fc .fc-toolbar-chunk {
+        display: flex;
+        justify-content: center;
+        gap: 6px;
+    }
+
+    /* Cabeçalhos de dia menores */
+    .fc .fc-col-header-cell-cushion {
+        font-size: 11px;
+        padding: 4px 2px;
+    }
+
+    /* Célula do mês mais baixa */
+    .fc .fc-daygrid-day-frame { min-height: 62px; }
+    .fc .fc-daygrid-day-number { font-size: 12px; padding: 3px 5px; }
+
+    /* Eventos compactos; tarefa fica escondida no mês (só local importa) */
+    .fc .fc-event { font-size: 10px; }
+    .evento-cal-wrap { gap: 1px; }
+    .evento-cal-periodo { font-size: 8px; padding-left: 1px; }
+    .evento-cal-caixa { padding: 2px 4px; border-left-width: 2px; }
+    .evento-cal-local { font-size: 10px; }
+    .evento-cal-tarefa { display: none; }
+
+    /* Mas na visão de Lista, mostra tudo */
+    .fc .fc-list-event .evento-cal-tarefa  { display: flex; }
+    .fc .fc-list-event .evento-cal-local   { font-size: 13px; }
+    .fc .fc-list-event .evento-cal-periodo { font-size: 11px; }
+    .fc .fc-list-event .evento-cal-caixa   { padding: 6px 8px; }
+
+    /* "+N mais" com mais destaque */
+    .fc .fc-daygrid-more-link { font-size: 10px; padding: 1px 3px; }
+
+    /* Dia inteiro é alvo de toque */
+    .fc .fc-daygrid-day { cursor: pointer; }
+
+    /* Legenda com mais respiro */
+    .legenda {
+        flex-wrap: wrap;
+        gap: 12px;
+        font-size: 12px;
+        margin-bottom: 10px;
+    }
+}
+
+/* Acessibilidade: reduz animações quando o SO pede */
+@media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; }
+}

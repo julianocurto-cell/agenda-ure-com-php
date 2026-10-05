@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gestão de Visitas</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="css/style.css">
+
+<!-- FullCalendar (calendário individual/geral) -->
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/locales/pt-br.global.min.js"></script>
+
+<!-- SheetJS (exportação Excel) -->
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+</head>
+<body>
+
+<!-- ==================== TELA DE LOGIN ==================== -->
+<div id="tela-login">
+    <div class="login-cartao">
+        <div class="login-marca">
+            <span class="login-marca-icone">
+                <img src="image/logo.png" alt="Logo" width="40" height="40">
+            </span>
+            <div>
+                <h1>Gestão de Visitas</h1>
+                <span>Acompanhamento de agendamentos</span>
+            </div>
+        </div>
+
+        <h2>Entrar</h2>
+        <p>Acesse com seu e-mail e senha cadastrados.</p>
+
+        <p class="erro-mensagem" id="login-erro" hidden></p>
+
+        <form id="form-login">
+            <div class="campo">
+                <label for="login-email">E-mail</label>
+                <input type="email" id="login-email" required autocomplete="username">
+            </div>
+            <div class="campo">
+                <label for="login-senha">Senha</label>
+                <input type="password" id="login-senha" required autocomplete="current-password">
+            </div>
+            <button type="submit" class="btn btn-primario" id="btn-login">Entrar</button>
+        </form>
+    </div>
+</div>
+
+<!-- ==================== APLICAÇÃO ==================== -->
+<div id="tela-app" hidden>
+
+    <aside id="menu-lateral">
+        <div class="menu-marca">
+            <span class="menu-marca-icone">
+                <img src="image/logo.png" alt="Logo" width="36" height="36">
+            </span>
+            <div>
+                <strong>Gestão de Visitas</strong>
+                <span>Painel de agendamentos</span>
+            </div>
+        </div>
+        <nav id="menu-nav"></nav>
+    </aside>
+
+    <div id="conteudo-principal">
+        <header id="cabecalho">
+            <div class="cabecalho-esquerda">
+                <button id="btn-menu-mobile" aria-label="Abrir menu">☰</button>
+            </div>
+            <div class="cabecalho-usuario">
+                <div class="cabecalho-usuario-info">
+                    <strong id="cabecalho-nome">—</strong>
+                    <span id="cabecalho-funcao">—</span>
+                </div>
+                <span class="avatar" id="cabecalho-iniciais">—</span>
+                <button class="btn btn-secundario" id="btn-sair">Sair</button>
+            </div>
+        </header>
+
+        <main id="main">
+            <section id="view-inicio" class="view" hidden></section>
+            <section id="view-agenda" class="view" hidden></section>
+            <section id="view-calendario" class="view" hidden></section>
+            <section id="view-consolidado" class="view" hidden></section>
+            <section id="view-cadastro" class="view" hidden></section>
+            <section id="view-locais"  class="view" hidden></section>
+            <section id="view-tarefas" class="view" hidden></section>
+            <section id="view-relatorio" class="view" hidden></section>
+            <section id="view-relatorio-geral" class="view" hidden></section>
+            <section id="view-indicadores" class="view" hidden></section>
+        </main>
+    </div>
+</div>
+
+<!-- ==================== MODAL: AGENDAMENTO ==================== -->
+<div class="modal-fundo" id="modal-agendamento" hidden>
+    <div class="modal-caixa">
+        <div class="modal-cabecalho">
+            <h2 id="modal-agendamento-titulo">Nova visita</h2>
+            <button class="modal-fechar" data-fechar-modal aria-label="Fechar">×</button>
+        </div>
+        <form id="form-agendamento">
+            <div class="modal-corpo">
+                <div class="form-linha">
+                    <div class="campo">
+                        <label for="ag-local">Local</label>
+                        <select id="ag-local" required data-somente-leitura></select>
+                    </div>
+                    <div class="campo">
+                        <label for="ag-data">Data</label>
+                        <input type="date" id="ag-data" required data-somente-leitura>
+                    </div>
+                </div>
+                <div class="campo">
+                    <label>Período <span class="obrigatorio">*</span></label>
+                    <div class="chk-grupo" id="ag-periodo-grupo">
+                        <label class="chk-linha">
+                            <input type="checkbox" name="ag-periodo" value="manha" data-somente-leitura>
+                            Manhã
+                        </label>
+                        <label class="chk-linha">
+                            <input type="checkbox" name="ag-periodo" value="tarde" data-somente-leitura>
+                            Tarde
+                        </label>
+                        <label class="chk-linha">
+                            <input type="checkbox" name="ag-periodo" value="noite" data-somente-leitura>
+                            Noite
+                        </label>
+                    </div>
+                    <small class="ajuda" id="ag-periodo-erro" hidden>Selecione ao menos um período.</small>
+                </div>
+                <div class="campo">
+                    <label for="ag-tarefa">Tarefa</label>
+                    <select id="ag-tarefa" required data-somente-leitura></select>
+                </div>
+                <div class="campo">
+                    <label for="ag-objetivo">Objetivo</label>
+                    <input type="text" id="ag-objetivo" placeholder="O que se pretende com esta visita" data-somente-leitura>
+                </div>
+                <div class="campo">
+                    <label for="ag-status">Status</label>
+                    <select id="ag-status" required data-somente-leitura>
+                        <option value="planejado">Planejado</option>
+                        <option value="concluido">Concluído</option>
+                    </select>
+                </div>
+                <div class="campo">
+                    <label for="ag-resumo" id="ag-resumo-label">Resumo da visita (opcional)</label>
+                    <textarea id="ag-resumo" placeholder="Registre o que aconteceu na visita" data-somente-leitura></textarea>
+                </div>
+            </div>
+            <div class="modal-corpo" style="padding-top:0;">
+                <div class="modal-rodape">
+                    <button type="button" class="btn btn-perigo" id="ag-excluir" hidden>Excluir</button>
+                    <div class="modal-rodape-acoes">
+                        <button type="button" class="btn btn-secundario" id="ag-cancelar">Cancelar</button>
+                        <button type="submit" class="btn btn-primario" id="ag-salvar">Salvar</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- ==================== MODAL: DETALHES (calendário / consolidado) ==================== -->
+<div class="modal-fundo" id="modal-detalhes" hidden>
+    <div class="modal-caixa">
+        <div class="modal-cabecalho">
+            <h2>Detalhes da visita</h2>
+            <button class="modal-fechar" data-fechar-modal aria-label="Fechar">×</button>
+        </div>
+        <div class="modal-corpo" id="detalhes-conteudo"></div>
+    </div>
+</div>
+
+<!-- ==================== MODAL: USUÁRIO (ADM) ==================== -->
+<div class="modal-fundo" id="modal-usuario" hidden>
+    <div class="modal-caixa">
+        <div class="modal-cabecalho">
+            <h2 id="modal-usuario-titulo">Editar usuário</h2>
+            <button class="modal-fechar" data-fechar-modal aria-label="Fechar">×</button>
+        </div>
+        <form id="form-usuario">
+            <div class="modal-corpo">
+                <input type="hidden" id="usu-id">
+                <div class="campo">
+                    <label for="usu-nome">Nome</label>
+                    <input type="text" id="usu-nome" required>
+                </div>
+                <div class="campo">
+                    <label for="usu-email">E-mail</label>
+                    <input type="email" id="usu-email" required>
+                </div>
+
+                <!-- Nova senha opcional (aparece só no modo edição) -->
+                <div class="campo" id="usu-grupo-nova-senha" hidden>
+                    <label for="usu-nova-senha">Nova senha (opcional)</label>
+                    <input type="text" id="usu-nova-senha" minlength="6" placeholder="Deixe em branco para não alterar">
+                    <small class="ajuda">Só preencha se quiser redefinir a senha do usuário.</small>
+                </div>
+
+                <!-- Senha inicial (aparece só no modo criação) -->
+                <div class="campo" id="usu-grupo-senha" hidden>
+                    <label for="usu-senha">Senha</label>
+                    <input type="text" id="usu-senha" minlength="6" placeholder="Mínimo 6 caracteres">
+                </div>
+
+                <div class="campo">
+                    <label for="usu-funcao">Função</label>
+                    <select id="usu-funcao"></select>
+                </div>
+                <div class="campo">
+                    <label for="usu-escopo">Escopo</label>
+                    <select id="usu-escopo">
+                        <option value="user">USER</option>
+                        <option value="adm">ADM</option>
+                    </select>
+                </div>
+                <label class="chk-linha">
+                    <input type="checkbox" id="usu-ativo">
+                    Usuário ativo
+                </label>
+            </div>
+            <div class="modal-corpo" style="padding-top:0;">
+                <div class="modal-rodape">
+                    <button type="button" class="btn btn-secundario" id="usu-cancelar">Cancelar</button>
+                    <button type="submit" class="btn btn-primario" id="usu-salvar">Salvar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- ==================== MODAL: ALTERAR SENHA (ADM) ==================== -->
+<div class="modal-fundo" id="modal-senha" hidden>
+    <div class="modal-caixa">
+        <div class="modal-cabecalho">
+            <h2 id="modal-senha-titulo">Alterar senha</h2>
+            <button class="modal-fechar" data-fechar-modal aria-label="Fechar">×</button>
+        </div>
+        <form id="form-senha">
+            <div class="modal-corpo">
+                <input type="hidden" id="sen-id">
+                <div class="campo">
+                    <label for="sen-nova">Nova senha</label>
+                    <input type="text" id="sen-nova" minlength="6" required autocomplete="off" placeholder="Mínimo 6 caracteres">
+                </div>
+            </div>
+            <div class="modal-corpo" style="padding-top:0;">
+                <div class="modal-rodape">
+                    <button type="button" class="btn btn-secundario" id="sen-cancelar">Cancelar</button>
+                    <button type="submit" class="btn btn-primario" id="sen-salvar">Salvar senha</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- ==================== MODAL: TAREFA (ADM) ==================== -->
+<div class="modal-fundo" id="modal-tarefa" hidden>
+    <div class="modal-caixa">
+        <div class="modal-cabecalho">
+            <h2 id="modal-tarefa-titulo">Nova tarefa</h2>
+            <button class="modal-fechar" data-fechar-modal aria-label="Fechar">×</button>
+        </div>
+        <form id="form-tarefa">
+            <div class="modal-corpo">
+                <input type="hidden" id="tar-id">
+                <div class="campo">
+                    <label for="tar-nome">Nome</label>
+                    <input type="text" id="tar-nome" required>
+                </div>
+                <div class="campo">
+                    <label for="tar-descricao">Descrição</label>
+                    <textarea id="tar-descricao" placeholder="Descrição opcional da tarefa"></textarea>
+                </div>
+                <label class="chk-linha">
+                    <input type="checkbox" id="tar-ativo">
+                    Tarefa ativa
+                </label>
+            </div>
+            <div class="modal-corpo" style="padding-top:0;">
+                <div class="modal-rodape">
+                    <button type="button" class="btn btn-secundario" id="tar-cancelar">Cancelar</button>
+                    <button type="submit" class="btn btn-primario" id="tar-salvar">Salvar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- ==================== MODAL: LOCAL (ADM) ==================== -->
+<div class="modal-fundo" id="modal-local" hidden>
+    <div class="modal-caixa">
+        <div class="modal-cabecalho">
+            <h2 id="modal-local-titulo">Novo local</h2>
+            <button class="modal-fechar" data-fechar-modal aria-label="Fechar">×</button>
+        </div>
+        <form id="form-local">
+            <div class="modal-corpo">
+                <input type="hidden" id="loc-id">
+                <div class="campo">
+                    <label for="loc-nome">Nome</label>
+                    <input type="text" id="loc-nome" required>
+                </div>
+                <div class="campo">
+                    <label for="loc-cidade">Cidade</label>
+                    <input type="text" id="loc-cidade" required>
+                </div>
+                <label class="chk-linha">
+                    <input type="checkbox" id="loc-ativo">
+                    Local ativo
+                </label>
+            </div>
+            <div class="modal-corpo" style="padding-top:0;">
+                <div class="modal-rodape">
+                    <button type="button" class="btn btn-secundario" id="loc-cancelar">Cancelar</button>
+                    <button type="submit" class="btn btn-primario" id="loc-salvar">Salvar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- ==================== SCRIPTS DA APLICAÇÃO ==================== -->
+<script src="js/hostinger-api.js"></script>
+<script src="js/app.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/dashboard.js"></script>
+<script src="js/agenda.js"></script>
+<script src="js/calendario.js"></script>
+<script src="js/consolidado.js"></script>
+<script src="js/usuarios.js"></script>
+<script src="js/relatorios.js"></script>
+<script src="js/indicadores.js"></script>
+<script src="js/locais.js"></script>
+<script src="js/tarefas.js"></script>
+
+</body>
+</html>
